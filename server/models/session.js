@@ -1,3 +1,5 @@
+// TODO: Maybe delete this file
+
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
