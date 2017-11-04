@@ -9,10 +9,12 @@ import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import SignupWidget from '../Session/components/SignupWidget/SignupWidget';
 
 // Import Actions
 import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
+import { signup } from '../Session/SessionActions';
 
 export class App extends Component {
   constructor(props) {
@@ -27,6 +29,10 @@ export class App extends Component {
   toggleAddPostSection = () => {
     this.props.dispatch(toggleAddPost());
   };
+
+  handleAddUser = (email, password) => {
+    this.props.dispatch(signup({ email, password }));
+  }
 
   render() {
     return (
@@ -53,6 +59,7 @@ export class App extends Component {
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
           />
+          <SignupWidget addUser={this.handleAddUser} />
           <div className={styles.container}>
             {this.props.children}
           </div>

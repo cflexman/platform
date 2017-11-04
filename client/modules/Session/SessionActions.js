@@ -42,7 +42,7 @@ export function logout() {
 
 export function signup(user) {
   return (dispatch) => {
-    return callApi('user', 'post', {
+    return callApi('users', 'post', {
       user: {
         email: user.email,
         password: user.password,

@@ -5,7 +5,7 @@ import sanitizeHtml from 'sanitize-html';
 
 export function registerUser(req, res) {
   // TODO Subtler error handling, with better error messages
-  if (!req.body.post.name || !req.body.post.title || !req.body.post.content) {
+  if (!req.body.user.email || !req.body.user.password) {
     res.status(403).end();
   }
 

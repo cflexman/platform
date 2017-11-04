@@ -40,7 +40,7 @@ userSchema.statics.authenticate = function (email, password, callback) {
         if (result === true) {
           return callback(null, user);
         }
-        return callback();
+        return callback(err);
       });
     });
 };
