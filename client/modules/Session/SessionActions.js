@@ -32,6 +32,7 @@ export function login(user) {
 }
 
 export function logout() {
+  console.log('logging out');
   return (dispatch) => {
     return callApi('session', 'delete')
       .then(() => dispatch(receiveCurrentUser(null)),
