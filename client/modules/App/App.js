@@ -14,7 +14,7 @@ import SignupWidget from '../Session/components/SignupWidget/SignupWidget';
 // Import Actions
 import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
-import { signup } from '../Session/SessionActions';
+import { signup, login, logout } from '../Session/SessionActions';
 
 export class App extends Component {
   constructor(props) {
@@ -30,8 +30,16 @@ export class App extends Component {
     this.props.dispatch(toggleAddPost());
   };
 
-  handleAddUser = (email, password) => {
+  handleRegisterUser = (email, password) => {
     this.props.dispatch(signup({ email, password }));
+  }
+
+  handleLoginUser = (email, password) => {
+    this.props.dispatch(login({ email, password }));
+  }
+
+  handleLogoutUser = () => {
+    this.props.dispatch(logout());
   }
 
   render() {
@@ -59,7 +67,7 @@ export class App extends Component {
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
           />
-          <SignupWidget addUser={this.handleAddUser} />
+        <SignupWidget registerUser={this.handleRegisterUser} loginUser={this.handleLoginUser} logoutUser={this.handleLogoutUser} />
           <div className={styles.container}>
             {this.props.children}
           </div>

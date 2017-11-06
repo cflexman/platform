@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: { type: 'String', unique: true, required: true, trim: true },
   password: { type: 'String', required: true, trim: true },
+  webToken: { type: 'String', trim: true },
   /* slug: { type    : 'String', required: true }, */
   cuid: { type: 'String', required: true },
   dateAdded: { type: 'Date', default: Date.now, required: true },
@@ -27,7 +28,7 @@ userSchema.pre('save', function (next) {
 
 // authenticate input against database
 userSchema.statics.authenticate = function (email, password, callback) {
-  User.findOne({ email })
+  this.findOne({ email })
     .exec(function (err, user) {
       if (err) {
         return callback(err)
@@ -36,14 +37,24 @@ userSchema.statics.authenticate = function (email, password, callback) {
         err.status = 401;
         return callback(err);
       }
+
       bcrypt.compare(password, user.password, function (err, result) {
         if (result === true) {
-          return callback(null, user);
+          callback(null, user);
         }
         return callback(err);
       });
     });
 };
 
+userSchema.methods.checkPassword = function (candidatePassword, callback) {
+  const user = this;
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (isMatch) {
+      return callback(null, user);
+    }
+    return callback(err);
+  });
+};
 
 export default mongoose.model('User', userSchema);
