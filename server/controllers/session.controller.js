@@ -42,7 +42,7 @@ export function login(req, res) {
 
 export function verifyToken(req, res) {
   // check header or url parameters or post parameters for token
-  let token = req.body.token || req.query.token;
+  let token = req.cookies.id_token;
   if (!token) {
     // TODO: standardize error message return values.  fix reducers/actions
     return res.status(401).json({ message: 'Must pass token' });
@@ -50,15 +50,18 @@ export function verifyToken(req, res) {
 
   // TODO: refactor out a bunch of this code. put it in util/auth.js
   // TODO: get a real secret string
-  jwt.verify(token, "SECRET STRING", function (err, user) {
+  jwt.verify(token, 'secret', function (err, user) {
     if (err) throw err;
 
-    User.findById({ '_id': user._id }, function (err, user) {
+    User.findById({ '_id': user.id }, function (err, user) {
+      if (err) throw err;
+
       const cleanUser = getCleanUser(user);
+
       // refresh token
       token = generateToken(user);
-
-      return res.json({ user: cleanUser, token });
+      res.cookie('id_token', token, { maxAge: 900000, httpOnly: true });
+      return res.json({ user: cleanUser });
     });
   });
 }
@@ -66,5 +69,6 @@ export function verifyToken(req, res) {
 export function logout(req, res) {
   // TODO: check if there is a currentuser.  logout if so.  do token stuff.
   // TODO: return error if there is no currentUser
+  res.clearCookie('id_token', { maxAge: 900000, httpOnly: true });
   return res.status(200).end();
 }

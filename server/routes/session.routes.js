@@ -10,6 +10,6 @@ router.route('/session').post(SessionController.login);
 router.route('/session').delete(SessionController.logout);
 
 // Get current user from token
-router.route('/currentuser').post(SessionController.verifyToken);
+router.route('/currentuser').get(SessionController.verifyToken);
 
 export default router;

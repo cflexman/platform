@@ -12,5 +12,5 @@ export function getCleanUser(user) {
 export function generateToken(user) {
   const userInfo = getCleanUser(user);
   // TODO: Get a real secret string
-  return jwt.sign(userInfo, "SECRET_STRING", { expiresIn: '7 days' })
+  return jwt.sign(userInfo, 'secret', { expiresIn: '7 days' })
 }

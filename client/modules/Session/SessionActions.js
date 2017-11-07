@@ -59,15 +59,9 @@ export function signup(user) {
   };
 }
 
-export function userFromToken(token) {
+export function userFromToken() {
   return (dispatch) => {
-    // let token = localStorage.getItem('id_token');
-    let token = '';
-    if (!token || token === '') {
-      return;
-    }
-
-    return callApi('currentuser', 'post', { token })
+    return callApi('currentuser', 'get')
       .then(function (res) {
         // localStorage.setItem('id_token', res.token);
         dispatch(receiveCurrentUser(res.user));

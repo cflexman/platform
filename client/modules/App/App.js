@@ -21,10 +21,10 @@ export class App extends Component {
     super(props);
     this.state = { isMounted: false };
   }
-  //
-  // componentWillMount() {
-  //   this.props.loadUserFromToken();
-  // }
+
+  componentWillMount() {
+    this.props.loadUserFromToken();
+  }
 
   componentDidMount() {
     this.setState({isMounted: true}); // eslint-disable-line
@@ -86,18 +86,17 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
-  // loadUserFromToken: PropTypes.func.loadUserFromToken,
+  loadUserFromToken: PropTypes.func.isRequired,
 };
 
 // TODO: Move a bunch of code to a container.  eg mapState and mapDispatch
 //
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     loadUserFromToken: () => {
-//       dispatch(userFromToken());
-//     },
-//   }
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    loadUserFromToken: () => dispatch(userFromToken()),
+    dispatch,
+  };
+}
 
 // Retrieve data from store as props
 function mapStateToProps(store) {
@@ -106,4 +105,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
