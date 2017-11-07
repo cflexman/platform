@@ -8,7 +8,6 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: { type: 'String', unique: true, required: true, trim: true },
   password: { type: 'String', required: true, trim: true },
-  webToken: { type: 'String', trim: true },
   /* slug: { type    : 'String', required: true }, */
   cuid: { type: 'String', required: true },
   dateAdded: { type: 'Date', default: Date.now, required: true },

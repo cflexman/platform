@@ -16,6 +16,7 @@ export function registerUser(req, res) {
   const user = new User({ email, password });
   user.cuid = cuid();
 
+  // TODO: all necessary token stuff for signing in
   user.save((err, saved) => {
     if (err) {
       res.status(500).send(err);

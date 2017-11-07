@@ -26,22 +26,28 @@ export function login(user) {
         email: user.email,
         password: user.password,
       },
-    }).then(res => dispatch(receiveCurrentUser(res.user)),
-        res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
+    }).then(function (res) {
+      // localStorage.setItem('id_token', res.token);
+      console.log(res);
+      dispatch(receiveCurrentUser(res.user));
+    }, res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
   };
 }
 
 export function logout() {
-  console.log('logging out');
   return (dispatch) => {
     return callApi('session', 'delete')
-      .then(() => dispatch(receiveCurrentUser(null)),
-        res => dispatch(receiveErrors(res.err.responseJSON)));
+      .then(function () {
+        console.log('removing');
+        // localStorage.removeItem('id_token');
+        dispatch(receiveCurrentUser(null));
+      }, res => dispatch(receiveErrors(res.err.responseJSON)));
   };
 }
 
 
 export function signup(user) {
+  // TODO: token stuff.  does this login the user?
   return (dispatch) => {
     return callApi('users', 'post', {
       user: {
@@ -50,5 +56,21 @@ export function signup(user) {
       },
     }).then(res => dispatch(receiveCurrentUser(res.user)),
         res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
+  };
+}
+
+export function userFromToken(token) {
+  return (dispatch) => {
+    // let token = localStorage.getItem('id_token');
+    let token = '';
+    if (!token || token === '') {
+      return;
+    }
+
+    return callApi('currentuser', 'post', { token })
+      .then(function (res) {
+        // localStorage.setItem('id_token', res.token);
+        dispatch(receiveCurrentUser(res.user));
+      }, res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
   };
 }

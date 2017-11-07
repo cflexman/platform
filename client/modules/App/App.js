@@ -14,13 +14,17 @@ import SignupWidget from '../Session/components/SignupWidget/SignupWidget';
 // Import Actions
 import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
-import { signup, login, logout } from '../Session/SessionActions';
+import { signup, login, logout, userFromToken } from '../Session/SessionActions';
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = { isMounted: false };
   }
+  //
+  // componentWillMount() {
+  //   this.props.loadUserFromToken();
+  // }
 
   componentDidMount() {
     this.setState({isMounted: true}); // eslint-disable-line
@@ -82,7 +86,18 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
+  // loadUserFromToken: PropTypes.func.loadUserFromToken,
 };
+
+// TODO: Move a bunch of code to a container.  eg mapState and mapDispatch
+//
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     loadUserFromToken: () => {
+//       dispatch(userFromToken());
+//     },
+//   }
+// }
 
 // Retrieve data from store as props
 function mapStateToProps(store) {
