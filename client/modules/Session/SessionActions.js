@@ -26,11 +26,8 @@ export function login(user) {
         email: user.email,
         password: user.password,
       },
-    }).then(function (res) {
-      // localStorage.setItem('id_token', res.token);
-      console.log(res);
-      dispatch(receiveCurrentUser(res.user));
-    }, res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
+    }).then(res => dispatch(receiveCurrentUser(res.user)),
+    res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
   };
 }
 
@@ -38,8 +35,6 @@ export function logout() {
   return (dispatch) => {
     return callApi('session', 'delete')
       .then(function () {
-        console.log('removing');
-        // localStorage.removeItem('id_token');
         dispatch(receiveCurrentUser(null));
       }, res => dispatch(receiveErrors(res.err.responseJSON)));
   };
@@ -62,9 +57,7 @@ export function signup(user) {
 export function userFromToken() {
   return (dispatch) => {
     return callApi('currentuser', 'get')
-      .then(function (res) {
-        // localStorage.setItem('id_token', res.token);
-        dispatch(receiveCurrentUser(res.user));
-      }, res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
+      .then(res => dispatch(receiveCurrentUser(res.user)),
+        res => dispatch(receiveErrors(res.err.responseJSON))); /* May not be the right way to parse the error.  eg it may not have that method, and it may be err, not res.err */
   };
 }

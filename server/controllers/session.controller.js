@@ -23,6 +23,7 @@ export function login(req, res) {
     }
 
     const token = generateToken(user);
+    // TODO: figure out good settings for the cookie
     res.cookie('id_token', token, { maxAge: 900000, httpOnly: true });
     const cleanUser = getCleanUser(user);
     return res.json({ user: cleanUser });

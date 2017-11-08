@@ -17,6 +17,7 @@ export function Header(props, context) {
           <li><FormattedMessage id="switchLanguage" /></li>
           {languageNodes}
         </ul>
+        <Link to={'/about'}>About</Link>
       </div>
       <div className={styles.content}>
         <h1 className={styles['site-title']}>

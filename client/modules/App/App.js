@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 // Import Style
@@ -71,7 +72,7 @@ export class App extends Component {
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
           />
-        <SignupWidget registerUser={this.handleRegisterUser} loginUser={this.handleLoginUser} logoutUser={this.handleLogoutUser} />
+          <SignupWidget registerUser={this.handleRegisterUser} loginUser={this.handleLoginUser} logoutUser={this.handleLogoutUser} />
           <div className={styles.container}>
             {this.props.children}
           </div>
