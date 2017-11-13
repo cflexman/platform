@@ -34,9 +34,8 @@ export function login(user) {
 export function logout() {
   return (dispatch) => {
     return callApi('session', 'delete')
-      .then(function () {
-        dispatch(receiveCurrentUser(null));
-      }, res => dispatch(receiveErrors(res.err.responseJSON)));
+      .then(() => dispatch(receiveCurrentUser(null)),
+      res => dispatch(receiveErrors(res.err.responseJSON)));
   };
 }
 
